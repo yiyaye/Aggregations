@@ -1,0 +1,65 @@
+Terms Aggregation关键字: 根据某一项的每个唯一的值来聚合
+GET /cars/cars/_search
+{
+  "aggs": {
+    "car_brand": {
+      "terms": {
+        "field": "brand"
+      }
+    }
+  }
+}
+
+#分桶后只显示文档数量的前3的桶
+GET /cars/cars/_search
+{
+  "aggs": {
+    "car_brand": {
+      "terms": {
+        "field": "brand",
+        "size": 3
+      }
+    }
+  }
+}
+
+#分桶后排序
+GET /cars/cars/_search
+{
+  "aggs": {
+    "car_brand": {
+      "terms": {
+        "field": "brand",
+        "order": {
+          "_count": "asc"
+        }
+      }
+    }
+  }
+}
+
+#显示文档数量大于3的桶
+GET /cars/cars/_search
+{
+  "aggs": {
+    "brands_max_num": {
+      "terms": {
+        "field": "brand",
+        "min_doc_count": 3
+      }
+    }
+  }
+}
+
+#使用精确指定的词条进行分桶
+GET /cars/cars/_search
+{
+  "aggs": {
+    "brand_cars": {
+      "terms": {
+        "field": "brand",
+        "include": ["BMW", "Audi"]
+      }
+    }
+  }
+}
